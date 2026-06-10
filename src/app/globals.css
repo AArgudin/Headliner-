@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  :root { color-scheme: dark; }
+  
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #18181b; }
+  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 2px; }
+}
+
+@layer utilities {
+  .agent-glow { box-shadow: 0 0 20px rgba(14, 165, 233, 0.15); }
+  .surface-card {
+    background: #111113;
+    border: 1px solid #27272a;
+    border-radius: 12px;
+  }
+}
