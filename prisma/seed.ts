@@ -31,9 +31,15 @@ async function main() {
     },
   })
 
+  // Clear previous demo rows so reseeding doesn't duplicate
+  // (skipDuplicates is not supported on SQLite)
+  await prisma.agentLog.deleteMany({ where: { artistId: artist.id } })
+  await prisma.contentItem.deleteMany({ where: { artistId: artist.id } })
+  await prisma.invoice.deleteMany({ where: { artistId: artist.id } })
+  await prisma.booking.deleteMany({ where: { artistId: artist.id } })
+
   // Seed bookings
   await prisma.booking.createMany({
-    skipDuplicates: true,
     data: [
       {
         artistId: artist.id,
@@ -73,7 +79,6 @@ async function main() {
 
   // Seed invoices
   await prisma.invoice.createMany({
-    skipDuplicates: true,
     data: [
       {
         artistId: artist.id,
@@ -179,4 +184,9 @@ async function main() {
   console.log("✅ Seed complete — demo@roster.app / any password")
 }
 
-main().catch(console.error).finally(() => prisma.$disconnect())
+main()
+  .catch((e) => {
+    console.error(e)
+    process.exitCode = 1
+  })
+  .finally(() => prisma.$disconnect())
